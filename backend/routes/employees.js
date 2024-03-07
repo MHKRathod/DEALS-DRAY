@@ -14,6 +14,20 @@ router.post('/employees', async (req, res) => {
   }
 });
 
+router.put('/edit/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedEmployee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+        res.json(updatedEmployee);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 // Get employee list
 router.get('/employees', async (req, res) => {
   try {
