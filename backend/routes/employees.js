@@ -28,6 +28,20 @@ router.put('/edit/:id', async (req, res) => {
     }
 });
 
+//single employee by id
+router.get('/employees/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const employee = await Employee.findById(id);
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+    res.json(employee);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Get employee list
 router.get('/employees', async (req, res) => {
   try {
