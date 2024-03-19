@@ -10,7 +10,14 @@ const authRouter = require('./backend/routes/auth');
 
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3001',
+    methods: 'GET,PUT,POST,DELETE',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(express.json());
 connectDB();
