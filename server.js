@@ -14,7 +14,7 @@ const authRouter = require('./backend/routes/auth');
 
 const app = express();
 const corsOptions = {
-    origin: '*'
+    origin: ['http://localhost:3002'] // Add your allowed origins here
   };
   
   app.use(cors(corsOptions));
