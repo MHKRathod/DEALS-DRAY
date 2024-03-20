@@ -17,6 +17,7 @@ router.post('/employees', async (req, res) => {
 router.put('/edit/:id', async (req, res) => {
     try {
         const { id } = req.params;
+        console.log('Request Body:', req.body);
         const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, { new: true });
         if (!updatedEmployee) {
             return res.status(404).json({ message: 'Employee not found' });

@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 connectDB();
 
-const PORT = 3003;
+const PORT = 3001;
 
 app.get("/",(req,res) => {
     res.send("hello world");
