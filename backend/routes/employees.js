@@ -14,6 +14,8 @@ router.post('/employees', async (req, res) => {
   }
 });
 
+
+// Update the route handler to handle JSON payloads
 router.put('/employees/edit/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -42,6 +44,9 @@ router.put('/employees/edit/:id', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+
 
 //single employee by id
 router.get('/employees/:id', async (req, res) => {
