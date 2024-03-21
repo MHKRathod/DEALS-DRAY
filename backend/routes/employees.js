@@ -24,6 +24,8 @@ router.put('/employees/edit/:id', async (req, res) => {
         if (!updatedEmployee) {
             return res.status(404).json({ message: 'Employee not found' });
         }
+        console.log('updated employee')
+        console.log(updatedEmployee)
         res.json(updatedEmployee);
     } catch (error) {
         console.error(error);
