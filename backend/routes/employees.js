@@ -47,6 +47,7 @@ router.get('/employees/:id', async (req, res) => {
 // Get employee list
 router.get('/employees', async (req, res) => {
   console.log('Get all employees');
+  console.log('hari hari hari')
   try {
     const employees = await Employee.find();
     res.json(employees);

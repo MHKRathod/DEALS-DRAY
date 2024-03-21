@@ -13,16 +13,12 @@ const authRouter = require('./backend/routes/auth');
 
 
 const app = express();
-const corsOptions = {
-    origin: ['http://localhost:3002'] // Add your allowed origins here
-  };
-  
-  app.use(cors(corsOptions));
+ app.use(cors());
 
 app.use(express.json());
 connectDB();
 
-const PORT = 3007;
+const PORT = 3000;
 
 app.get("/",(req,res) => {
     res.send("hello world");
