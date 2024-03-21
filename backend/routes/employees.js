@@ -15,22 +15,32 @@ router.post('/employees', async (req, res) => {
 });
 
 router.put('/employees/edit/:id', async (req, res) => {
-  console.log('Get employee by id');
-    try {
-        const { id } = req.params;
-        // Logging removed to reduce overhead
-        const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, { new: true }).lean();
-        // Using lean() to improve query performance by returning plain JavaScript objects instead of Mongoose documents
-        if (!updatedEmployee) {
-            return res.status(404).json({ message: 'Employee not found' });
-        }
-        console.log('updated employee')
-        console.log(updatedEmployee)
-        res.json(updatedEmployee);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+  try {
+    const { id } = req.params;
+    console.log('Received PUT request to update employee with ID:', id);
+    
+    // Log the request body to verify the data sent from the frontend
+    console.log('Request payload:', req.body);
+
+    // Update the employee record in the database
+    const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, { new: true }).lean();
+
+    // Check if the employee record was updated successfully
+    if (!updatedEmployee) {
+      console.log('Employee not found with ID:', id);
+      return res.status(404).json({ message: 'Employee not found' });
     }
+
+    // Log the updated employee data
+    console.log('Updated employee:', updatedEmployee);
+
+    // Send the updated employee data in the response
+    return res.json(updatedEmployee);
+  } catch (error) {
+    // Log any errors that occur during the update process
+    console.error('Error updating employee:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 //single employee by id
