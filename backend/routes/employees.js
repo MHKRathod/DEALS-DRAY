@@ -14,7 +14,8 @@ router.post('/employees', async (req, res) => {
   }
 });
 
-router.put('/edit/:id', async (req, res) => {
+router.put('/employees/edit/:id', async (req, res) => {
+  console.log('Get employee by id');
     try {
         const { id } = req.params;
         // Logging removed to reduce overhead
@@ -32,6 +33,7 @@ router.put('/edit/:id', async (req, res) => {
 
 //single employee by id
 router.get('/employees/:id', async (req, res) => {
+  
   try {
     const { id } = req.params;
     const employee = await Employee.findById(id);
