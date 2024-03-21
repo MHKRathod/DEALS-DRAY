@@ -6,67 +6,51 @@ const Employee = require('../models/Employee');
 // Create employee
 router.post('/employees', async (req, res) => {
   try {
-    console.log("Creating new employee...");
     const employee = new Employee(req.body);
     await employee.save();
-    console.log("Employee created successfully:", employee);
     res.status(201).json(employee);
   } catch (err) {
-    console.error("Error creating employee:", err);
     res.status(400).json({ message: err.message });
   }
 });
 
-// Update employee by ID
 router.put('/edit/:id', async (req, res) => {
-  try {
-    console.log("Updating employee...");
-    const { id } = req.params;
-    console.log("Employee ID:", id);
-    console.log("Request Body:", req.body);
-    const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, { new: true }).lean();
-    console.log("Updated Employee:", updatedEmployee);
-    if (!updatedEmployee) {
-      console.log("Employee not found");
-      return res.status(404).json({ message: 'Employee not found' });
+    try {
+        const { id } = req.params;
+        // Logging removed to reduce overhead
+        const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, { new: true }).lean();
+        // Using lean() to improve query performance by returning plain JavaScript objects instead of Mongoose documents
+        if (!updatedEmployee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+        res.json(updatedEmployee);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-    console.log("Employee updated successfully");
-    res.json(updatedEmployee);
-  } catch (error) {
-    console.error("Error updating employee:", error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
 });
 
-// Get single employee by ID
+//single employee by id
 router.get('/employees/:id', async (req, res) => {
   try {
-    console.log("Fetching employee by ID...");
     const { id } = req.params;
-    console.log("Employee ID:", id);
     const employee = await Employee.findById(id);
-    console.log("Fetched Employee:", employee);
     if (!employee) {
-      console.log("Employee not found");
       return res.status(404).json({ message: 'Employee not found' });
     }
-    console.log("Employee found");
     res.json(employee);
   } catch (err) {
-    console.error("Error fetching employee by ID:", err);
     res.status(500).json({ message: err.message });
   }
 });
 
 // Get employee list
 router.get('/employees', async (req, res) => {
+  console.log('Get all employees');
   try {
-    console.log("Fetching all employees...");
     const employees = await Employee.find();
-    console.log("Fetched Employees:", employees);
     res.json(employees);
   } catch (err) {
-    console.error("Error fetching all employees:", err);
     res.status(500).json({ message: err.message });
   }
 });
