@@ -21,12 +21,10 @@ const organizationalStructureHandler = async (req, res) => {
         const employees = await Employee.find().lean();
         const structure = {};
         for (const employee of employees) {
-            if (!employee.manager) {
-                structure[employee._id] = {
-                    employee: employee,
-                    subordinates: await getSubordinateCount(employee._id)
-                };
-            }
+            structure[employee._id] = {
+                employee: employee,
+                subordinates: await getSubordinateCount(employee._id)
+            };
         }
         res.json(structure);
     } catch (err) {
