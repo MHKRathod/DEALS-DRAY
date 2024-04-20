@@ -8,6 +8,7 @@ const connectDB = require('./config/config');
 const employeeRoutes = require('./backend/routes/employees');
 const errorHandler = require('./backend/middleware/errorHandler');
 const authRouter = require('./backend/routes/auth');
+const organizationalRoutes = require('./backend/routes/organizational');
 
 const app = express();
  app.use(cors());
@@ -23,7 +24,7 @@ app.get("/",(req,res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api', employeeRoutes);
-
+app.use('/api', organizationalRoutes)
 
 app.use(errorHandler);
 
