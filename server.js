@@ -1,6 +1,4 @@
 require('events').EventEmitter.defaultMaxListeners = 20;
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -10,7 +8,6 @@ const connectDB = require('./config/config');
 const employeeRoutes = require('./backend/routes/employees');
 const errorHandler = require('./backend/middleware/errorHandler');
 const authRouter = require('./backend/routes/auth');
-
 
 const app = express();
  app.use(cors());
@@ -24,9 +21,9 @@ app.get("/",(req,res) => {
     res.send("hello world");
 })
 
-
 app.use('/api/auth', authRouter);
 app.use('/api', employeeRoutes);
+
 
 app.use(errorHandler);
 

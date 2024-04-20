@@ -8,9 +8,11 @@ const employeeSchema = new mongoose.Schema({
     gender: { type: String, required: true },
     courses: [{ type: String }],
     img: { type: String }, // Assuming the image URL is stored as a string
-    createDate: { type: Date, default: Date.now } // Automatically set to the current date and time when a new document is created
+    createDate: { type: Date, default: Date.now }, // Automatically set to the current date and time when a new document is created
+    manager: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee' } // Reference to the manager (self-reference)
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);
 
 module.exports = Employee;
+
