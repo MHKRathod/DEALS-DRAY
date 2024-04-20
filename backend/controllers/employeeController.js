@@ -41,7 +41,7 @@ const employeeGetHandler = async (req, res) => {
           return res.status(404).json({ message: 'Employee not found' });
       }
 
-      // Fetch manager's details
+      // Fetch direct manager's details
       let manager = null;
       if (employee.manager) {
           manager = await Employee.findById(employee.manager);
