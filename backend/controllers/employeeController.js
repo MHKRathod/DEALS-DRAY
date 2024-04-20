@@ -34,26 +34,29 @@ const employeeUpdateHandler = async (req, res) => {
 };
 
 const employeeGetHandler = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const employee = await Employee.findById(id);
-        if (!employee) {
-            return res.status(404).json({ message: 'Employee not found' });
-        }
+  try {
+      const { id } = req.params;
+      const employee = await Employee.findById(id);
+      if (!employee) {
+          return res.status(404).json({ message: 'Employee not found' });
+      }
 
-        // Fetch manager's details
-        const manager = await Employee.findById(employee.managerId);
+      // Fetch manager's details
+      let manager = null;
+      if (employee.manager) {
+          manager = await Employee.findById(employee.manager);
+      }
 
-        // Include manager's details in the response
-        const response = {
-            employee: employee,
-            manager: manager
-        };
+      // Include manager's details in the response
+      const response = {
+          employee: employee,
+          manager: manager
+      };
 
-        res.json(response);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal server error' });
-    }
+      res.json(response);
+  } catch (err) {
+      res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 const employeeListHandler = async (req, res) => {
