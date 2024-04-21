@@ -61,7 +61,29 @@ const getSubordinateHandler = async (req, res) => {
     }
 };
 
+
+const getEmployeeAndManagerHandler =  async (req, res) => {
+    const { employeeId } = req.params;
+    try {
+        const employee = await Employee.findById(employeeId)
+            .populate('manager') // Populate the manager field with details
+            .exec();
+        
+        if (!employee) {
+            return res.status(404).json({ error: "Employee not found" });
+        }
+        
+        res.json(employee);
+    } catch (error) {
+        console.error('Error fetching employee:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+
+
 module.exports = {
     organizationalStructureHandler,
-    getSubordinateHandler
+    getSubordinateHandler,getEmployeeAndManagerHandler
 };
