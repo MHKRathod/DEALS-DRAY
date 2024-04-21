@@ -15,6 +15,7 @@ const getSubordinateCount = async (employeeId) => {
     return count;
 };
 
+
 // Organizational structure handler
 const organizationalStructureHandler = async (req, res) => {
     try {
@@ -31,6 +32,7 @@ const organizationalStructureHandler = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 
 const getSubordinateHandler = async (req, res) => {
     const { employeeId } = req.params;
@@ -81,9 +83,42 @@ const getEmployeeAndManagerHandler =  async (req, res) => {
 };
 
 
+const getManagerHandler = async (req, res) => {
+    const { managerId } = req.params;
+    try {
+        // Find the manager
+        const manager = await Employee.findById(managerId).exec();
+        
+        if (!manager) {
+            return res.status(404).json({ error: "Manager not found" });
+        }
+
+        // Function to recursively fetch subordinates
+        const getSubordinates = async (employeeId) => {
+            const subordinates = await Employee.find({ manager: employeeId }).exec();
+            let allSubordinates = [];
+            for (const subordinate of subordinates) {
+                allSubordinates.push(subordinate);
+                const indirectSubordinates = await getSubordinates(subordinate._id);
+                allSubordinates = allSubordinates.concat(indirectSubordinates);
+            }
+            return allSubordinates;
+        };
+
+        // Get all direct and indirect subordinates of the manager
+        const allSubordinates = await getSubordinates(managerId);
+        
+        res.json(allSubordinates);
+    } catch (error) {
+        console.error('Error fetching subordinates:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 module.exports = {
     organizationalStructureHandler,
-    getSubordinateHandler,getEmployeeAndManagerHandler
+    getSubordinateHandler,
+    getEmployeeAndManagerHandler,
+    getManagerHandler
 };
