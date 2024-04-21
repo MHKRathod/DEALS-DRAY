@@ -34,5 +34,6 @@ const organizationalStructureHandler = async (req, res) => {
 
 
 module.exports = {
-    organizationalStructureHandler
+    organizationalStructureHandler,
+    getSubordinateCount
 };
